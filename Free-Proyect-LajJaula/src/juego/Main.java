@@ -10,7 +10,7 @@ public class Main {
 
         JuegoPanel panel = new JuegoPanel();
 
-        ImageIcon icon = new ImageIcon("ruta/a/la/imatge.png");
+        ImageIcon icon = new ImageIcon("imagenes/logo.png");
         finestra.setIconImage(icon.getImage());
 
         finestra.add(panel);
