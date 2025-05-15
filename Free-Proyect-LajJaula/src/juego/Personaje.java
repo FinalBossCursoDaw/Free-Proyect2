@@ -65,4 +65,8 @@ public class Personaje {
     public Image getImagenActual() {
         return imagenActual;
     }
+    public void reiniciarPosicion() {
+        this.fila = 1;
+        this.columna = 1;
+    }
 }

@@ -7,6 +7,7 @@ import java.awt.*;
         public static final int TIPO_CINTA = 1;
         public static final int TIPO_PELOTA = 2;
         public static final int TIPO_ZAPATILLAS = 3;
+        public static final int TIPO_VIDA = 4;
 
         private int fila, columna;
         private int tipo;

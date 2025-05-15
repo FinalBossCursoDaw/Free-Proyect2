@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 public class JuegoPanel extends JPanel implements KeyListener {
 
@@ -32,17 +33,16 @@ public class JuegoPanel extends JPanel implements KeyListener {
 //personaje//
     private Personaje personaje;
 //objeto//
-    private Image cinta, pelota, zapatillas;
+    private Image cinta, pelota, zapatillas,corazon;
     private List<Objeto> objetos = new ArrayList<>();
-
+private List<Objeto> vidas = new ArrayList<>();
     private Random random = new Random();
-
     private int cintasRecogidas = 0;
     private int pilotesRecogidas = 0;
     private int zapatillasRecogidas = 0;
     private final int MAX_RECOLLIDES = 2;
 //enemigo//
-private Enemigo enemigoVertical;
+private List<Enemigo> enemigos = new ArrayList<>();
 
 
     public JuegoPanel() {
@@ -62,16 +62,56 @@ private Enemigo enemigoVertical;
         cinta = new ImageIcon("imagenes/objetos/Objeto-Cinta.png").getImage();
         pelota = new ImageIcon("imagenes/objetos/Objeto-Pelota.png").getImage();
         zapatillas = new ImageIcon("imagenes/objetos/Objeto-Zapatillas.png").getImage();
+        corazon= new ImageIcon("imagenes/objetos/Objeto-Corazon.png").getImage();
 
         objetos.add(new Objeto(getPosicioAleatoria()[0], getPosicioAleatoria()[1], Objeto.TIPO_CINTA, cinta));
         objetos.add(new Objeto(getPosicioAleatoria()[0], getPosicioAleatoria()[1], Objeto.TIPO_PELOTA, pelota));
         objetos.add(new Objeto(getPosicioAleatoria()[0], getPosicioAleatoria()[1], Objeto.TIPO_ZAPATILLAS, zapatillas));
+for (int i = 0; i < 3; i++) {
+    vidas.add(new Objeto(0,mapa[0].length-1-i,Objeto.TIPO_VIDA, corazon));
+}
 
 
         int[] posEnemigo = getPosicioAleatoria();
-        enemigoVertical = new Enemigo(posEnemigo[0], posEnemigo[1]);
+        enemigos.add( new Enemigo(5, 5, true));
+        enemigos.add( new Enemigo(8, 3, false));
+        enemigos.add( new Enemigo(2, 10, false));
+        enemigos.add( new Enemigo(10, 15, true));
+
+
+        Timer timer = new Timer(200, e -> {
+       for (Enemigo enemigo : enemigos) {
+           enemigo.mover(mapa);
+       }
+            repaint();
+            comprobarColisionConEnemigo();
+        });
+        timer.start();
+
+
 
     }
+
+    private void comprobarColisionConEnemigo() {
+for (Enemigo enemigo : enemigos) {
+    if (personaje.getColumna()==enemigo.getColumna() && personaje.getFila()==enemigo.getFila()) {
+        if (!vidas.isEmpty()) {
+            vidas.remove(vidas.get(vidas.size()-1));
+            personaje.reiniciarPosicion();
+        }
+        if (vidas.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "💀 T'has quedat sense vides! Game Over!",
+                    "Fi del joc",
+                    JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+
+    }
+}
+
+   }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -90,7 +130,6 @@ private Enemigo enemigoVertical;
         }
 
         g.drawImage(personaje.getImagenActual(), personaje.getColumna() * 32, personaje.getFila() * 32, 32, 32, null);
-
         for (Objeto obj : objetos) {
             g.drawImage(obj.getImagen(), obj.getColumna() * 32, obj.getFila() * 32, 32, 32, null);
         }
@@ -106,7 +145,12 @@ private Enemigo enemigoVertical;
         g.drawString(zapatillasRecogidas + " / " + MAX_RECOLLIDES, x + 40, y + dy * 2 + 22);
 
 
-        enemigoVertical.add(new Enemigo(5, 5, true));
+        for (Enemigo e : enemigos) {
+            g.drawImage(e.getImagen(), e.getColumna() * 32, e.getFila() * 32, 32, 32, null);
+        }
+        for (Objeto vida : vidas) {
+            g.drawImage(vida.getImagen(), vida.getColumna() * 32, vida.getFila() * 32, 32, 32, null);
+        }
     }
 
     @Override
@@ -147,7 +191,7 @@ private Enemigo enemigoVertical;
             JOptionPane.showMessageDialog(this, "🏆 Has recollit 2 de cada objecte!\nHas guanyat!", "Fi del joc", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
-
+        comprobarColisionConEnemigo();
         repaint();
     }
 

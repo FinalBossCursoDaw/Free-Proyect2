@@ -1,29 +1,67 @@
 package juego;
 
-import java.awt.*;
 import javax.swing.*;
+import java.awt.*;
 
 public class Enemigo {
+    private int fila, columna;
+    private int direccion = 1; // 1 o -1
+    private boolean esVertical;
 
-    private int fila;
-    private int columna;
+    private Image enemigoAbajo, enemigoArriba, enemigoDerecha, enemigoIzquierda;
     private Image imagenActual;
-    private int direccion = 1;
-    private boolean vertical;
 
-
-    private Image enemigoabajo,enemigoDerecha,enemigoArriba,enemigoIzquierda;
-
-    public Enemigo(int fila, int columna) {
+    public Enemigo(int fila, int columna, boolean esVertical) {
         this.fila = fila;
         this.columna = columna;
+        this.esVertical = esVertical;
 
+        enemigoAbajo = new ImageIcon("imagenes/enemigo/Enemigo-Abajo.png").getImage();
+        enemigoArriba = new ImageIcon("imagenes/enemigo/Enemigo-Arriba.png").getImage();
+        enemigoDerecha = new ImageIcon("imagenes/enemigo/Enemigo-Derecha.png").getImage();
+        enemigoIzquierda = new ImageIcon("imagenes/enemigo/Enemigo-Izquierda.png").getImage();
 
-        enemigoabajo = new ImageIcon("imagenes/enemigos/enemigo-abajo.png").getImage();
-        enemigoArriba= new ImageIcon("imagenes/enemigos/enemigo-arriba.png").getImage();
-        enemigoDerecha=new ImageIcon("imagenes/enemigos/enemigo-derecha.png").getImage();
-        enemigoIzquierda=new ImageIcon("imagenes/enemigos/enemigo-izquierda.png").getImage();
-        imagenActual = enemigoabajo;
+        // Imatge inicial segons la direcció
+        if (esVertical) {
+            imagenActual = enemigoAbajo;
+        } else {
+            imagenActual = enemigoDerecha;
+        }
+    }
+
+    public void mover(int[][] mapa) {
+        if (esVertical) {
+            int novaFila = fila + direccion;
+
+            if (mapa[novaFila][columna] == 0) {
+                fila = novaFila;
+
+                if (direccion == 1) {
+                    imagenActual = enemigoAbajo;
+                } else {
+                    imagenActual = enemigoArriba;
+                }
+
+            } else {
+                direccion *= -1; // Canvia de direcció
+            }
+
+        } else {
+            int novaCol = columna + direccion;
+
+            if (mapa[fila][novaCol] == 0) {
+                columna = novaCol;
+
+                if (direccion == 1) {
+                    imagenActual = enemigoDerecha;
+                } else {
+                    imagenActual = enemigoIzquierda;
+                }
+
+            } else {
+                direccion *= -1;
+            }
+        }
     }
 
     public int getFila() {
@@ -34,49 +72,7 @@ public class Enemigo {
         return columna;
     }
 
-    public void setFila(int fila) {
-        this.fila = fila;
-    }
-
-    public void setColumna(int columna) {
-        this.columna = columna;
-    }
-
     public Image getImagen() {
         return imagenActual;
     }
-    public void mover(int[][] mapa) {
-        if (vertical) {
-            int nuevaFila = fila + direccion;
-
-
-            if (mapa[nuevaFila][columna] == 0) {
-                fila = nuevaFila;
-
-                if (direccion == 1) {
-                    imagenActual = enemigoabajo;
-                } else {
-                    imagenActual = enemigoArriba;
-                }
-            } else {
-                // Si choca con muro, cambia de dirección
-                direccion = direccion * -1;
-            }
-        } else {
-            int nuevaColumna = columna + direccion;
-
-            if (mapa[fila][nuevaColumna] == 0) {
-                columna = nuevaColumna;
-
-                if (direccion == 1) {
-                    imagenActual = enemigoDerecha;
-                } else {
-                    imagenActual = enemigoIzquierda;
-                }
-            } else {
-                direccion = direccion * -1;
-            }
-        }
-    }
-
 }
