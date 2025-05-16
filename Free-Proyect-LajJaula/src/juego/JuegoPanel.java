@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
 
 public class JuegoPanel extends JPanel implements KeyListener {
 
@@ -43,12 +42,18 @@ private List<Objeto> vidas = new ArrayList<>();
     private final int MAX_RECOLLIDES = 2;
 //enemigo//
 private List<Enemigo> enemigos = new ArrayList<>();
+//nombre//
+    private String nombreJugador;
 
 
-    public JuegoPanel() {
+    public JuegoPanel(String nombreJugador) {
         setPreferredSize(new Dimension(640, 480));
         setFocusable(true);
         addKeyListener(this);
+        //nombre//
+        this.nombreJugador = this.nombreJugador;
+
+
 //mapa//
         mur = new ImageIcon("imagenes/mazmorra/muro.png").getImage();
         terra = new ImageIcon("imagenes/mazmorra/suelo.png").getImage();
@@ -101,7 +106,7 @@ for (Enemigo enemigo : enemigos) {
         }
         if (vidas.isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                    "💀 T'has quedat sense vides! Game Over!",
+                    " T'has quedat sense vides! Game Over!",
                     "Fi del joc",
                     JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
