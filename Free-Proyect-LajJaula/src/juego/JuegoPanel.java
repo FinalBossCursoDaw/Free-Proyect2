@@ -51,7 +51,7 @@ private List<Enemigo> enemigos = new ArrayList<>();
         setFocusable(true);
         addKeyListener(this);
         //nombre//
-        this.nombreJugador = this.nombreJugador;
+        this.nombreJugador = nombreJugador;
 
 
 //mapa//
@@ -105,6 +105,7 @@ for (Enemigo enemigo : enemigos) {
             personaje.reiniciarPosicion();
         }
         if (vidas.isEmpty()) {
+            BD.conectar(nombreJugador, cintasRecogidas, pilotesRecogidas, zapatillasRecogidas, 0);
             JOptionPane.showMessageDialog(this,
                     " T'has quedat sense vides! Game Over!",
                     "Fi del joc",
@@ -193,6 +194,7 @@ for (Enemigo enemigo : enemigos) {
         }
 
         if (cintasRecogidas == MAX_RECOLLIDES && pilotesRecogidas == MAX_RECOLLIDES && zapatillasRecogidas == MAX_RECOLLIDES) {
+            BD.conectar(nombreJugador, cintasRecogidas, pilotesRecogidas, zapatillasRecogidas, vidas.size());
             JOptionPane.showMessageDialog(this, "🏆 Has recollit 2 de cada objecte!\nHas guanyat!", "Fi del joc", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }

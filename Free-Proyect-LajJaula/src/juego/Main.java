@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
+
         String nombreJugador = JOptionPane.showInputDialog(null,
                 "Introdueix el teu nom:", "Benvingut a La Jaula!",
                 JOptionPane.PLAIN_MESSAGE);
