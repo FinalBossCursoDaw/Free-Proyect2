@@ -2,6 +2,8 @@ package juego;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -67,36 +69,34 @@ private List<Enemigo> enemigos = new ArrayList<>();
         cinta = new ImageIcon("imagenes/objetos/Objeto-Cinta.png").getImage();
         pelota = new ImageIcon("imagenes/objetos/Objeto-Pelota.png").getImage();
         zapatillas = new ImageIcon("imagenes/objetos/Objeto-Zapatillas.png").getImage();
-        corazon= new ImageIcon("imagenes/objetos/Objeto-Corazon.png").getImage();
+        corazon = new ImageIcon("imagenes/objetos/Objeto-Corazon.png").getImage();
 
         objetos.add(new Objeto(getPosicioAleatoria()[0], getPosicioAleatoria()[1], Objeto.TIPO_CINTA, cinta));
         objetos.add(new Objeto(getPosicioAleatoria()[0], getPosicioAleatoria()[1], Objeto.TIPO_PELOTA, pelota));
         objetos.add(new Objeto(getPosicioAleatoria()[0], getPosicioAleatoria()[1], Objeto.TIPO_ZAPATILLAS, zapatillas));
-for (int i = 0; i < 3; i++) {
-    vidas.add(new Objeto(0,mapa[0].length-1-i,Objeto.TIPO_VIDA, corazon));
-}
+        for (int i = 0; i < 3; i++) {
+            vidas.add(new Objeto(0, mapa[0].length - 1 - i, Objeto.TIPO_VIDA, corazon));
+        }
 
 
         int[] posEnemigo = getPosicioAleatoria();
-        enemigos.add( new Enemigo(5, 5, true));
-        enemigos.add( new Enemigo(8, 3, false));
-        enemigos.add( new Enemigo(2, 10, false));
-        enemigos.add( new Enemigo(10, 15, true));
+        enemigos.add(new Enemigo(5, 5, true));
+        enemigos.add(new Enemigo(8, 3, false));
+        enemigos.add(new Enemigo(2, 10, false));
+        enemigos.add(new Enemigo(10, 15, true));
 
-
-        Timer timer = new Timer(200, e -> {
-       for (Enemigo enemigo : enemigos) {
-           enemigo.mover(mapa);
-       }
-            repaint();
-            comprobarColisionConEnemigo();
+        Timer timer = new Timer(200, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Enemigo enemigo : enemigos) {
+                    enemigo.mover(mapa);
+                }
+                repaint();
+                comprobarColisionConEnemigo();
+            }
         });
         timer.start();
-
-
-
     }
-
     private void comprobarColisionConEnemigo() {
 for (Enemigo enemigo : enemigos) {
     if (personaje.getColumna()==enemigo.getColumna() && personaje.getFila()==enemigo.getFila()) {

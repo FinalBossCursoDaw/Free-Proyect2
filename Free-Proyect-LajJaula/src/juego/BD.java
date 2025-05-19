@@ -25,7 +25,7 @@ public class BD {
             ps.setInt(5, videsRestants);
             ps.setTimestamp(6, Timestamp.valueOf(LocalDateTime.now()));
 
-            ps.executeUpdate(); //
+            ps.executeUpdate();
 
             System.out.println("Partida guardada correctamente a la base de dades.");
         } catch (SQLException e) {
