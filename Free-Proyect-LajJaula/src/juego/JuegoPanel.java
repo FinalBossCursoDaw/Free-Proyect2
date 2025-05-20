@@ -172,7 +172,7 @@ for (Enemigo enemigo : enemigos) {
         for (Objeto obj : objetos) {
             if (obj.getFila() == personaje.getFila() && obj.getColumna() == personaje.getColumna()) {
                 aEliminar = obj;
-                break;
+
             }
         }
 

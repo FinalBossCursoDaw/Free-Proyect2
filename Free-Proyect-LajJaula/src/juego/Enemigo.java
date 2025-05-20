@@ -21,7 +21,6 @@ public class Enemigo {
         enemigoDerecha = new ImageIcon("imagenes/enemigo/Enemigo-Derecha.png").getImage();
         enemigoIzquierda = new ImageIcon("imagenes/enemigo/Enemigo-Izquierda.png").getImage();
 
-        // Imatge inicial segons la direcció
         if (esVertical) {
             imagenActual = enemigoAbajo;
         } else {
@@ -43,7 +42,7 @@ public class Enemigo {
                 }
 
             } else {
-                direccion *= -1; // Canvia de direcció
+                direccion = direccion * -1; // Canvia de direcció
             }
 
         } else {
@@ -59,7 +58,7 @@ public class Enemigo {
                 }
 
             } else {
-                direccion *= -1;
+                direccion = direccion * -1;
             }
         }
     }
