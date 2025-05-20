@@ -42,6 +42,7 @@ private List<Objeto> vidas = new ArrayList<>();
     private int pilotesRecogidas = 0;
     private int zapatillasRecogidas = 0;
     private final int MAX_RECOLLIDES = 2;
+    //Variables//
 //enemigo//
 private List<Enemigo> enemigos = new ArrayList<>();
 //nombre//
